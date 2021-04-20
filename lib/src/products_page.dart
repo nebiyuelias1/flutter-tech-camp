@@ -7,7 +7,13 @@ class ProductsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Products'),
+        backgroundColor: Colors.blueAccent,
+        title: Text(
+          'Product LIST',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
         leading: IconButton(
           onPressed: () {
             ExtendedNavigator.of(context).push(Routes.profilePage);
@@ -41,7 +47,39 @@ class _Products extends StatelessWidget {
 class _Product extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Text('Product Item');
+    return Card(
+      child: Column(
+        children: <Widget>[
+          AspectRatio(
+            aspectRatio: 20.0 / 11.0,
+            child: Image.asset('assets/images/T-shirt1.jpeg'),
+          ),
+          Container(
+            width: 200,
+            color: Colors.grey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text('ItemName'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('200 ETB'),
+                    SizedBox(width: 10),
+                    ButtonBar(
+                      children: <Widget>[
+                        IconButton(iconSize: 20,
+                          icon: Icon(Icons.add), onPressed: () {})
+                      ],
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
