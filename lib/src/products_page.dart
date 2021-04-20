@@ -65,7 +65,7 @@ class _Product extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text('200 ETB'),
-                    SizedBox(width: 10),
+                    SizedBox(width: 5),
                     ButtonBar(
                       children: <Widget>[
                         IconButton(iconSize: 20,
