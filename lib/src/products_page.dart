@@ -51,7 +51,7 @@ class _Product extends StatelessWidget {
       child: Column(
         children: <Widget>[
           AspectRatio(
-            aspectRatio: 20.0 / 11.0,
+            aspectRatio: 15.0 / 11.0,
             child: Image.asset('assets/images/T-shirt1.jpeg'),
           ),
           Container(
@@ -60,20 +60,11 @@ class _Product extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('ItemName'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text('200 ETB'),
-                    SizedBox(width: 5),
-                    ButtonBar(
-                      children: <Widget>[
-                        IconButton(iconSize: 20,
-                          icon: Icon(Icons.add), onPressed: () {})
-                      ],
-                    )
-                  ],
-                )
+                Padding(
+                  padding: EdgeInsets.only(left: 5, top: 5),
+                  child: _buildText('ProductName', 15, true),
+                ),
+                 _buildProductContainer('220 ETB'),
               ],
             ),
           ),
@@ -81,5 +72,39 @@ class _Product extends StatelessWidget {
       ),
     );
   }
-}
 
+
+  Container _buildProductContainer(String _productPrice) {
+    return Container(
+                height: 21,
+                padding: EdgeInsets.only(left: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildText('200 ETB', 15, false),
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: () {},
+                      iconSize: 20.0,
+                      padding: EdgeInsets.only(bottom: 5),
+                    ),
+                  ],
+                ),
+              );
+  }
+
+
+
+  Text _buildText(String _text, double _textSize, bool _isBold) {
+    FontWeight _textBold;
+    if (_isBold == true) {
+      _textBold = FontWeight.bold;
+    } else {
+      _textBold = FontWeight.normal;
+    }
+    return Text(
+      _text,
+      style: TextStyle(fontSize: _textSize, fontWeight: _textBold),
+    );
+  }
+}

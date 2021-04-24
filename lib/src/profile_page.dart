@@ -41,7 +41,7 @@ class _Profile extends StatelessWidget {
             alignment: Alignment.center,
             child: CircleAvatar(
                 backgroundImage: NetworkImage(
-                  'https://www.woolha.com/media/2020/03/eevee.png',
+                  'https://www.kindpng.com/picc/m/173-1731325_person-icon-png-transparent-png.png',
                 ),
                 minRadius: 50,
                 maxRadius: 75),
