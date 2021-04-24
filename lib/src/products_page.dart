@@ -9,7 +9,7 @@ class ProductsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         title: Text(
-          'Product LIST',
+          'Products LIST',
           style: TextStyle(
             color: Colors.white,
           ),
@@ -34,8 +34,8 @@ class _Products extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-      ),
+          crossAxisCount: 2, 
+          childAspectRatio: 1 / 1.5),
       itemCount: 10,
       itemBuilder: (_, index) {
         return _Product();
@@ -44,18 +44,19 @@ class _Products extends StatelessWidget {
   }
 }
 
+
 class _Product extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          AspectRatio(
-            aspectRatio: 15.0 / 11.0,
-            child: Image.asset('assets/images/T-shirt1.jpeg'),
+          Image(
+            image: AssetImage('assets/images/T-shirt1.jpeg'),
           ),
           Container(
-            width: 200,
             color: Colors.grey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +65,7 @@ class _Product extends StatelessWidget {
                   padding: EdgeInsets.only(left: 5, top: 5),
                   child: _buildText('ProductName', 15, true),
                 ),
-                 _buildProductContainer('220 ETB'),
+                _buildProductContainer('220 ETB'),
               ],
             ),
           ),
@@ -74,26 +75,23 @@ class _Product extends StatelessWidget {
   }
 
 
+
   Container _buildProductContainer(String _productPrice) {
     return Container(
-                height: 21,
-                padding: EdgeInsets.only(left: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buildText('200 ETB', 15, false),
-                    IconButton(
-                      icon: Icon(Icons.add),
-                      onPressed: () {},
-                      iconSize: 20.0,
-                      padding: EdgeInsets.only(bottom: 5),
-                    ),
-                  ],
-                ),
-              );
+      padding: EdgeInsets.only(left: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _buildText(_productPrice, 15, false),
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {},
+            iconSize: 20.0,
+          ),
+        ],
+      ),
+    );
   }
-
-
 
   Text _buildText(String _text, double _textSize, bool _isBold) {
     FontWeight _textBold;
