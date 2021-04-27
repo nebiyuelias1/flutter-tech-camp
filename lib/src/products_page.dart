@@ -9,7 +9,7 @@ class ProductsPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         title: Text(
-          'Products LIST',
+          'Products List',
           style: TextStyle(
             color: Colors.white,
           ),
@@ -25,6 +25,10 @@ class ProductsPage extends StatelessWidget {
         ),
       ),
       body: _Products(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.shopping_cart_rounded),
+      ),
     );
   }
 }
@@ -34,8 +38,7 @@ class _Products extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, 
-          childAspectRatio: 1 / 1.5),
+          crossAxisCount: 2, childAspectRatio: 1 / 1.5),
       itemCount: 10,
       itemBuilder: (_, index) {
         return _Product();
@@ -43,7 +46,6 @@ class _Products extends StatelessWidget {
     );
   }
 }
-
 
 class _Product extends StatelessWidget {
   @override
@@ -73,8 +75,6 @@ class _Product extends StatelessWidget {
       ),
     );
   }
-
-
 
   Container _buildProductContainer(String _productPrice) {
     return Container(
