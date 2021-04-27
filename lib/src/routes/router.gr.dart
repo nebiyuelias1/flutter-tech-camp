@@ -11,13 +11,16 @@ import 'package:flutter/material.dart';
 
 import '../products_page.dart';
 import '../profile_page.dart';
+import '../cart_page.dart';
 
 class Routes {
   static const String productsPage = '/';
   static const String profilePage = '/profile-page';
+  static const String cartPage = '/cart-page';
   static const all = <String>{
     productsPage,
     profilePage,
+    cartPage
   };
 }
 
@@ -27,6 +30,7 @@ class AppRouter extends RouterBase {
   final _routes = <RouteDef>[
     RouteDef(Routes.productsPage, page: ProductsPage),
     RouteDef(Routes.profilePage, page: ProfilePage),
+    RouteDef(Routes.cartPage, page: CartPage),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -40,6 +44,12 @@ class AppRouter extends RouterBase {
     ProfilePage: (data) {
       return MaterialPageRoute<dynamic>(
         builder: (context) => ProfilePage(),
+        settings: data,
+      );
+    },
+    CartPage: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => CartPage(),
         settings: data,
       );
     },
