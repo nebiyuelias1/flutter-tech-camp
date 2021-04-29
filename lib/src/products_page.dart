@@ -11,11 +11,17 @@ class ProductsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
+      create: (context) =>
           ProductsCubit(ProductsRepositoryImpl(Dio()))..getAllProducts(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Products'),
+          backgroundColor: Colors.blueAccent,
+          title: Text(
+            'Products List',
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
           leading: IconButton(
             onPressed: () {
               ExtendedNavigator.of(context).push(Routes.profilePage);
@@ -41,6 +47,12 @@ class ProductsPage extends StatelessWidget {
             return SizedBox();
           },
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            ExtendedNavigator.of(context).push(Routes.cartPage);
+          },
+          child: Icon(Icons.shopping_cart_rounded),
+        ),
       ),
     );
   }
@@ -55,8 +67,7 @@ class _Products extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-      ),
+          crossAxisCount: 2, childAspectRatio: 1 / 1.5),
       itemCount: 10,
       itemBuilder: (_, index) {
         return _Product(product: this.products[index]);
@@ -72,6 +83,65 @@ class _Product extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Product: ' + product.title);
+    return Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Expanded(
+            flex: 3,
+            child: Container(
+              child: Image.network(
+                product.image,
+                fit: BoxFit.scaleDown,
+              ),
+            ),
+          ),
+          Container(
+            color: Colors.grey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 5, top: 5),
+                  child: _buildText(product.title, 15, true),
+                ),
+                _buildProductContainer('${product.price} ETB'),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container _buildProductContainer(String _productPrice) {
+    return Container(
+      padding: EdgeInsets.only(left: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _buildText(_productPrice, 15, false),
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {},
+            iconSize: 20.0,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Text _buildText(String _text, double _textSize, bool _isBold) {
+    FontWeight _textBold;
+    if (_isBold == true) {
+      _textBold = FontWeight.bold;
+    } else {
+      _textBold = FontWeight.normal;
+    }
+    return Text(
+      _text,
+      style: TextStyle(fontSize: _textSize, fontWeight: _textBold),
+    );
   }
 }
