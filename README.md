@@ -1,6 +1,5 @@
-# flutter_tech_camp
-
-A shopping app for the flutter tech camp program.
+# Shopping app
+This is a simple shopping app used for teaching purposes for the [GDG Flutter Tech Camp](https://gdgaddis.gitbook.io/mobile-development-reference-tce-c01/).
 
 ## Branches
 - [Routing](https://github.com/nebiyuelias1/flutter-tech-camp/tree/routing)
