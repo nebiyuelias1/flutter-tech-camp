@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:badges/badges.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,26 +33,33 @@ class ProductsPage extends StatelessWidget {
             ),
           ),
         ),
-        body: BlocBuilder<ProductsCubit, ProductsState>(
-          builder: (context, state) {
-            if (state is ProductsInitialState) {
-              return Text('Initial State');
-            } else if (state is ProductsLoadingState) {
-              return Center(child: CircularProgressIndicator());
-            } else if (state is ProductsLoadingSuccessState) {
-              return _Products(products: state.products);
-            } else if (state is ProductsErrorState) {
-              return Text('Error: ' + state.message);
-            }
+        body: RefreshIndicator(
+          onRefresh: () => null,
+          child: BlocBuilder<ProductsCubit, ProductsState>(
+            builder: (context, state) {
+              if (state is ProductsInitialState) {
+                return Text('Initial State');
+              } else if (state is ProductsLoadingState) {
+                return Center(child: CircularProgressIndicator());
+              } else if (state is ProductsLoadingSuccessState) {
+                return _Products(products: state.products);
+              } else if (state is ProductsErrorState) {
+                return Text('Error: ' + state.message);
+              }
 
-            return SizedBox();
-          },
+              return SizedBox();
+            },
+          ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             ExtendedNavigator.of(context).push(Routes.cartPage);
           },
-          child: Icon(Icons.shopping_cart_rounded),
+          child: Badge(
+            badgeContent: Text('6'),
+            position: BadgePosition.topEnd(top: -12, end: -20),
+            child: Icon(Icons.shopping_cart_rounded),
+          ),
         ),
       ),
     );
@@ -67,7 +75,9 @@ class _Products extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, childAspectRatio: 1 / 1.5),
+        crossAxisCount: 2,
+        childAspectRatio: 1 / 1.5,
+      ),
       itemCount: 10,
       itemBuilder: (_, index) {
         return _Product(product: this.products[index]);
@@ -84,12 +94,19 @@ class _Product extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      margin: EdgeInsets.all(8.0),
+      clipBehavior: Clip.antiAlias,
+      elevation: 8.0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(16.0),
+        ),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Expanded(
-            flex: 3,
             child: Container(
               child: Image.network(
                 product.image,
@@ -97,17 +114,21 @@ class _Product extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            color: Colors.grey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(left: 5, top: 5),
-                  child: _buildText(product.title, 15, true),
-                ),
-                _buildProductContainer('${product.price} ETB'),
-              ],
+          Expanded(
+            flex: 0,
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              color: Colors.grey[200],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 5, top: 5),
+                    child: _buildText(product.title, 15, true),
+                  ),
+                  _buildProductContainer('${product.price} ETB'),
+                ],
+              ),
             ),
           ),
         ],
@@ -123,8 +144,10 @@ class _Product extends StatelessWidget {
         children: [
           _buildText(_productPrice, 15, false),
           IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {},
+            icon: Icon(Icons.add_shopping_cart_rounded),
+            onPressed: () {
+              // TODO: Add to cart
+            },
             iconSize: 20.0,
           ),
         ],
@@ -141,7 +164,12 @@ class _Product extends StatelessWidget {
     }
     return Text(
       _text,
-      style: TextStyle(fontSize: _textSize, fontWeight: _textBold),
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        fontSize: _textSize,
+        fontWeight: _textBold,
+      ),
     );
   }
 }
