@@ -9,9 +9,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../products_page.dart';
-import '../profile_page.dart';
-import '../cart_page.dart';
+import '../cart/screens/cart_page.dart';
+import '../products/screens/products_page.dart';
+import '../profile/screens/profile_page.dart';
 
 class Routes {
   static const String productsPage = '/';
@@ -20,7 +20,7 @@ class Routes {
   static const all = <String>{
     productsPage,
     profilePage,
-    cartPage
+    cartPage,
   };
 }
 

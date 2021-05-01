@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tech_camp/injection_container.dart';
 import 'package:flutter_tech_camp/src/routes/router.gr.dart';
 
 void main() {
+  registerDependencies();
   runApp(MyApp());
 }
 

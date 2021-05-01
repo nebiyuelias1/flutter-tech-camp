@@ -14,8 +14,9 @@ class ProductsRepositoryImpl implements ProductsRepository {
   @override
   Future<List<Product>> getAllProducts() async {
     try {
-      final response = await _dio.get('https://fakestoreapi.com/products');
-      return response.data.map((p) => Product.fromJson(p)).toList();
+      final response = await _dio.get('products');
+      List<Product> result = response.data.map<Product>((p) => Product.fromJson(p)).toList();
+      return result;
     } on DioError {
       throw NetworkError('Network error');
     } catch (_) {
