@@ -31,6 +31,7 @@ dependencies:
   flutter_bloc: ^6.1.2
   bloc: ^6.1.1
   badges: ^1.2.0
+  get_it: ^6.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

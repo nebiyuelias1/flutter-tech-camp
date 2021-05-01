@@ -1,19 +1,23 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:badges/badges.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tech_camp/injection_container.dart';
+import 'package:flutter_tech_camp/src/cart/cubit/cart_cubit.dart';
 import 'package:flutter_tech_camp/src/products/cubit/products_cubit.dart';
 import 'package:flutter_tech_camp/src/products/models/product.dart';
-import 'package:flutter_tech_camp/src/products/repository/products_repository.dart';
 import 'package:flutter_tech_camp/src/routes/router.gr.dart';
 
 class ProductsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          ProductsCubit(ProductsRepositoryImpl(Dio()))..getAllProducts(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) =>
+        sl<ProductsCubit>()
+          ..getAllProducts()),
+        BlocProvider(create: (context) => sl<CartCubit>())
+      ],
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.blueAccent,
@@ -51,17 +55,32 @@ class ProductsPage extends StatelessWidget {
             },
           ),
         ),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: _CartFloatingActionButton(),
+      ),
+    );
+  }
+}
+
+class _CartFloatingActionButton extends StatelessWidget {
+  const _CartFloatingActionButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CartCubit, CartState>(
+      builder: (context, state) {
+        return FloatingActionButton(
           onPressed: () {
             ExtendedNavigator.of(context).push(Routes.cartPage);
           },
           child: Badge(
-            badgeContent: Text('6'),
+            badgeContent: Text('${state.cart.quantity}'),
             position: BadgePosition.topEnd(top: -12, end: -20),
             child: Icon(Icons.shopping_cart_rounded),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
@@ -126,7 +145,7 @@ class _Product extends StatelessWidget {
                     padding: EdgeInsets.only(left: 5, top: 5),
                     child: _buildText(product.title, 15, true),
                   ),
-                  _buildProductContainer('${product.price} ETB'),
+                  _buildProductContainer(context),
                 ],
               ),
             ),
@@ -136,17 +155,17 @@ class _Product extends StatelessWidget {
     );
   }
 
-  Container _buildProductContainer(String _productPrice) {
+  Container _buildProductContainer(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(left: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildText(_productPrice, 15, false),
+          _buildText('${product.price} ETB', 15, false),
           IconButton(
             icon: Icon(Icons.add_shopping_cart_rounded),
             onPressed: () {
-              // TODO: Add to cart
+              context.read<CartCubit>().addToCart(product);
             },
             iconSize: 20.0,
           ),
