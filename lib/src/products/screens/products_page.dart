@@ -37,23 +37,23 @@ class ProductsPage extends StatelessWidget {
             ),
           ),
         ),
-        body: RefreshIndicator(
-          onRefresh: () => null,
-          child: BlocBuilder<ProductsCubit, ProductsState>(
-            builder: (context, state) {
-              if (state is ProductsInitialState) {
-                return Text('Initial State');
-              } else if (state is ProductsLoadingState) {
-                return Center(child: CircularProgressIndicator());
-              } else if (state is ProductsLoadingSuccessState) {
-                return _Products(products: state.products);
-              } else if (state is ProductsErrorState) {
-                return Text('Error: ' + state.message);
-              }
+        body: BlocBuilder<ProductsCubit, ProductsState>(
+          builder: (context, state) {
+            if (state is ProductsInitialState) {
+              return Text('Initial State');
+            } else if (state is ProductsLoadingState) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is ProductsLoadingSuccessState) {
+              return RefreshIndicator(
+                onRefresh: () => context.read<ProductsCubit>().getAllProducts(),
+                child: _Products(products: state.products),
+              );
+            } else if (state is ProductsErrorState) {
+              return _ProductsErrorWidget(error: state.message);
+            }
 
-              return SizedBox();
-            },
-          ),
+            return SizedBox();
+          },
         ),
         floatingActionButton: _CartFloatingActionButton(),
       ),
@@ -196,6 +196,36 @@ class _Product extends StatelessWidget {
         fontSize: _textSize,
         fontWeight: _textBold,
       ),
+    );
+  }
+}
+
+class _ProductsErrorWidget extends StatelessWidget {
+  final String error;
+
+  const _ProductsErrorWidget({Key key, @required this.error})
+      : assert(error != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          error,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        const SizedBox(height: 16),
+        Align(
+          child: ElevatedButton(
+            onPressed: () => context.read<ProductsCubit>().getAllProducts(),
+            child: const Text('Retry'),
+          ),
+        ),
+      ],
     );
   }
 }
