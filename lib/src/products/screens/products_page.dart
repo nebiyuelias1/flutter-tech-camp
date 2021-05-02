@@ -13,9 +13,9 @@ class ProductsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) =>
-        sl<ProductsCubit>()
-          ..getAllProducts()),
+        BlocProvider(
+          create: (context) => sl<ProductsCubit>()..getAllProducts(),
+        ),
         BlocProvider(create: (context) => sl<CartCubit>())
       ],
       child: Scaffold(
@@ -75,7 +75,14 @@ class _CartFloatingActionButton extends StatelessWidget {
             ExtendedNavigator.of(context).push(Routes.cartPage);
           },
           child: Badge(
-            badgeContent: Text('${state.cart.quantity}'),
+            badgeContent: Text(
+              '${state.cart.quantity}',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            showBadge: state.cart.quantity > 0,
             position: BadgePosition.topEnd(top: -12, end: -20),
             child: Icon(Icons.shopping_cart_rounded),
           ),
