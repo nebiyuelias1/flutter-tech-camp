@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tech_camp/injection_container.dart';
 import 'package:flutter_tech_camp/src/cart/cubit/cart_cubit.dart';
-import 'package:flutter_tech_camp/src/product_detail/product_detail_page.dart';
+import 'package:flutter_tech_camp/src/product_detail/screen/product_detail_page.dart';
 import 'package:flutter_tech_camp/src/products/cubit/products_cubit.dart';
 import 'package:flutter_tech_camp/src/products/models/product.dart';
 import 'package:flutter_tech_camp/src/routes/router.gr.dart';

@@ -13,19 +13,19 @@ class ProductDetailPage extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
-            Icons.chevron_left,
-            size: 40.0,
-            color: Colors.black,
+            Icons.arrow_back,
+            size: 30.0,
+            color: Colors.white,
           ),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.blueAccent,
         title: Text(
           "Product Detail",
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
           ),
         ),
       ),
@@ -44,29 +44,25 @@ class _BuildBottomNavigationBar extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           return showDialog<void>(
-    context: context,
-    barrierDismissible: false, // user must tap button!
-    builder: (BuildContext context) {
-      return AlertDialog(
-       
-        content: SingleChildScrollView(
-          child: 
-             Text('This button is still under developement \n will be implement by teacher'),
-             
-           
-          
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: Text('Done'),
-            onPressed: () {
-              Navigator.of(context).pop();
+            context: context,
+            barrierDismissible: false, // user must tap button!
+            builder: (BuildContext context) {
+              return AlertDialog(
+                content: SingleChildScrollView(
+                  child: Text(
+                      'This button is still under developement \n will be implement by teacher'),
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('Done'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
             },
-          ),
-        ],
-      );
-    },
-  );
+          );
         },
         child: Center(
           child: Row(
@@ -143,13 +139,11 @@ class _ProductDetailPage extends StatelessWidget {
       child: Container(
         height: 250.0,
         child: Center(
-          child: Expanded(
-            child: Container(
+          child:  Container(
               child: Image.network(
                 product.image,
                 fit: BoxFit.scaleDown,
               ),
-            ),
           ),
         ),
       ),
