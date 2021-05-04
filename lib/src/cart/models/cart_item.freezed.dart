@@ -8,6 +8,9 @@ part of 'cart_item.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+CartItem _$CartItemFromJson(Map<String, dynamic> json) {
+  return _CartItem.fromJson(json);
+}
 
 /// @nodoc
 class _$CartItemTearOff {
@@ -20,6 +23,11 @@ class _$CartItemTearOff {
       product: product,
     );
   }
+
+// ignore: unused_element
+  CartItem fromJson(Map<String, Object> json) {
+    return CartItem.fromJson(json);
+  }
 }
 
 /// @nodoc
@@ -31,6 +39,7 @@ mixin _$CartItem {
   int get multiplier;
   Product get product;
 
+  Map<String, dynamic> toJson();
   @JsonKey(ignore: true)
   $CartItemCopyWith<CartItem> get copyWith;
 }
@@ -106,11 +115,16 @@ class __$CartItemCopyWithImpl<$Res> extends _$CartItemCopyWithImpl<$Res>
   }
 }
 
+@JsonSerializable()
+
 /// @nodoc
 class _$_CartItem implements _CartItem {
   _$_CartItem({@required this.multiplier, @required this.product})
       : assert(multiplier != null),
         assert(product != null);
+
+  factory _$_CartItem.fromJson(Map<String, dynamic> json) =>
+      _$_$_CartItemFromJson(json);
 
   @override
   final int multiplier;
@@ -143,11 +157,18 @@ class _$_CartItem implements _CartItem {
   @override
   _$CartItemCopyWith<_CartItem> get copyWith =>
       __$CartItemCopyWithImpl<_CartItem>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_CartItemToJson(this);
+  }
 }
 
 abstract class _CartItem implements CartItem {
   factory _CartItem({@required int multiplier, @required Product product}) =
       _$_CartItem;
+
+  factory _CartItem.fromJson(Map<String, dynamic> json) = _$_CartItem.fromJson;
 
   @override
   int get multiplier;

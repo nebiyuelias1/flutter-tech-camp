@@ -1,6 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tech_camp/src/cart/cubit/cart_cubit.dart';
+import 'package:flutter_tech_camp/src/cart/models/cart.dart';
+import 'package:flutter_tech_camp/src/cart/models/cart_item.dart';
 
+import '../../../injection_container.dart';
 import '../../routes/router.gr.dart';
 
 class CartPage extends StatelessWidget {
@@ -25,12 +30,26 @@ class CartPage extends StatelessWidget {
           ),
         ),
       ),
-      body: _Carts(),
+      body: BlocProvider(
+        create: (_) => sl<CartCubit>(),
+        child: BlocBuilder<CartCubit, CartState>(builder: (context, state) {
+          if (state is CartState) {
+            return _Carts(
+              cart: state.cart,
+            );
+          }
+          return SizedBox();
+        }),
+      ),
     );
   }
 }
 
 class _Carts extends StatelessWidget {
+  final Cart cart;
+
+  const _Carts({Key key, this.cart}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -38,47 +57,60 @@ class _Carts extends StatelessWidget {
         crossAxisCount: 1,
         childAspectRatio: 6 / 1.5,
       ),
-      itemCount: 10,
+      itemCount: cart.items.length,
       itemBuilder: (_, index) {
-        return _Cart();
+        return _Cart(cartItem: cart.items[index]);
       },
     );
   }
 }
 
 class _Cart extends StatelessWidget {
+  final CartItem cartItem;
+
+  const _Cart({Key key, this.cartItem}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Image(
-            image: AssetImage('assets/images/T-shirt1.jpeg'),
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Image(
+          image: NetworkImage(cartItem.product.image),
+        ),
+        Container(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _buildProductContainer(
+                  '${cartItem.product.title}',
+                  '${cartItem.multiplier} x ${cartItem.product.price}'),
+              Row(
+                children: [
+                  _buildTextButton(context, '-', false),
+                  Text('${cartItem.multiplier}'),
+                  _buildTextButton(context, '+', true)
+                ],
+              )
+            ],
           ),
-          Container(
-           
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _buildProductContainer('Product Name', '2 x 200'),
-                Row(
-                  children: [
-                    _buildTextButton('-'),
-                    Text('2'),
-                    _buildTextButton('+')
-                  ],
-                )
-              ],
-            ),
-          )
-        ],
+        )
+      ],
     );
   }
 
-  TextButton _buildTextButton(String _textButton) {
+  TextButton _buildTextButton(BuildContext context, String _textButton,
+      bool isIncrementing) {
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        final cubit = context.read<CartCubit>();
+        if (isIncrementing) {
+          cubit.addToCart(cartItem.product);
+        } else {
+          cubit.removeFromCart(cartItem.product);
+        }
+      },
       child: Text(
         _textButton,
         style: TextStyle(color: Colors.grey, fontSize: 15),
@@ -90,7 +122,6 @@ class _Cart extends StatelessWidget {
     return Container(
       // padding: EdgeInsets.only(left: 5),
       child: Column(
-      
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildText(_productName, 20, true),
