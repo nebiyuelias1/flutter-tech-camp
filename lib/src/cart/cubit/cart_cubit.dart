@@ -5,6 +5,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:meta/meta.dart';
 
 part 'cart_state.dart';
+
 part 'cart_cubit.freezed.dart';
 
 class CartCubit extends HydratedCubit<CartState> {
@@ -12,6 +13,12 @@ class CartCubit extends HydratedCubit<CartState> {
 
   void addToCart(Product product) {
     final newCart = state.cart.addProduct(product);
+    final newState = state.copyWith(cart: newCart);
+    emit(newState);
+  }
+
+  void removeFromCart(product) {
+    final newCart = state.cart.removeProduct(product);
     final newState = state.copyWith(cart: newCart);
     emit(newState);
   }
