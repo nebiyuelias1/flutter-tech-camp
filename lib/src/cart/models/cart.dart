@@ -3,6 +3,7 @@ import 'package:flutter_tech_camp/src/products/models/product.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'cart.freezed.dart';
+part 'cart.g.dart';
 
 @freezed
 abstract class Cart with _$Cart {
@@ -33,4 +34,6 @@ abstract class Cart with _$Cart {
     return items.fold(
         0, (previousValue, element) => previousValue + element.multiplier);
   }
+
+  factory Cart.fromJson(Map<String, dynamic> json) => _$CartFromJson(json);
 }

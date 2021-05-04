@@ -30,6 +30,7 @@ dependencies:
   dio: ^3.0.10
   flutter_bloc: ^6.1.2
   bloc: ^6.1.1
+  hydrated_bloc: ^6.1.0
   badges: ^1.2.0
   get_it: ^6.0.0
 

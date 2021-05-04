@@ -16,7 +16,9 @@ class ProductsPage extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<ProductsCubit>()..getAllProducts(),
         ),
-        BlocProvider(create: (context) => sl<CartCubit>())
+        BlocProvider(
+          create: (context) => sl<CartCubit>(),
+        ),
       ],
       child: Scaffold(
         appBar: AppBar(
