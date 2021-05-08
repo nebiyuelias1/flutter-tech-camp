@@ -17,16 +17,11 @@ void registerDependencies() {
   // Repositories
   sl.registerLazySingleton<ProductsRepository>(
       () => ProductsRepositoryImpl(sl()));
-      
+  sl.registerLazySingleton<ProfileRepository>(
+      () => ProfileRepositoryImpl(sl()));
 
   // Cubits
   sl.registerFactory(() => ProductsCubit(sl()));
   sl.registerFactory(() => CartCubit());
-
-  sl.registerLazySingleton<ProfileRepository>(
-    () => ProfileRepositoryImpl(sl()));
-
-    sl.registerFactory(() => ProfileCubit(sl()));
+  sl.registerFactory(() => ProfileCubit(sl()));
 }
-
-
