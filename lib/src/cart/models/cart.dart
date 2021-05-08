@@ -19,9 +19,11 @@ abstract class Cart with _$Cart {
 
     if (cartItemOrNull != null) {
       // Our cart contains the product. Increment the multiplier.
+      final index = items.indexOf(cartItemOrNull);
+
       final newItems = List<CartItem>.from(items)
         ..remove(cartItemOrNull)
-        ..add(CartItem(
+        ..insert(index, CartItem(
             multiplier: cartItemOrNull.multiplier + 1, product: product));
       return this.copyWith(items: newItems);
     } else {
@@ -37,9 +39,10 @@ abstract class Cart with _$Cart {
     if (cartItem.multiplier > 1) {
       // If the item is more than 1 times present in our cart, then decrement
       // the multiplier.
+      final index = items.indexOf(cartItem);
       final newItems = List<CartItem>.from(items)
         ..remove(cartItem)
-        ..add(CartItem(
+        ..insert(index, CartItem(
             multiplier: cartItem.multiplier - 1, product: cartItem.product));
 
       return this.copyWith(items: newItems);
