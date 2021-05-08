@@ -8,3 +8,4 @@ This is a simple shopping app used for teaching purposes for the [GDG Flutter Te
 - [Product Model](https://github.com/nebiyuelias1/flutter-tech-camp/tree/product-model)
 - [State management](https://github.com/nebiyuelias1/flutter-tech-camp/tree/state-management)
 - [Dependency Injection](https://github.com/nebiyuelias1/flutter-tech-camp/tree/dependency-injection)
+- [Automated Testing](https://github.com/nebiyuelias1/flutter-tech-camp/tree/automated-testing)
