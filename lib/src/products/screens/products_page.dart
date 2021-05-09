@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tech_camp/injection_container.dart';
 import 'package:flutter_tech_camp/src/cart/cubit/cart_cubit.dart';
+import 'package:flutter_tech_camp/src/product_detail/screen/product_detail_page.dart';
 import 'package:flutter_tech_camp/src/products/cubit/products_cubit.dart';
 import 'package:flutter_tech_camp/src/products/models/product.dart';
 import 'package:flutter_tech_camp/src/routes/router.gr.dart';
@@ -13,7 +14,7 @@ class ProductsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
+        BlocProvider(create: (context) => sl<CartCubit>())
           create: (context) => sl<ProductsCubit>()..getAllProducts(),
         ),
         BlocProvider(
@@ -121,45 +122,56 @@ class _Product extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(8.0),
-      clipBehavior: Clip.antiAlias,
-      elevation: 8.0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(16.0),
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+                context,
+        MaterialPageRoute(
+          builder: (context) => ProductDetailPage(
+            product: product,
+          ),
+        ));
+      },
+      child: Card(
+        margin: EdgeInsets.all(8.0),
+        clipBehavior: Clip.antiAlias,
+        elevation: 8.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(16.0),
+          ),
         ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              child: Image.network(
-                product.image,
-                fit: BoxFit.scaleDown,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                child: Image.network(
+                  product.image,
+                  fit: BoxFit.scaleDown,
+                ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 0,
-            child: Container(
-              padding: EdgeInsets.all(8.0),
-              color: Colors.grey[200],
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 5, top: 5),
-                    child: _buildText(product.title, 15, true),
-                  ),
-                  _buildProductContainer(context),
-                ],
+            Expanded(
+              flex: 0,
+              child: Container(
+                padding: EdgeInsets.all(8.0),
+                color: Colors.grey[200],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 5, top: 5),
+                      child: _buildText(product.title, 15, true),
+                    ),
+                    _buildProductContainer(context),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
