@@ -8,6 +8,9 @@ part of 'cart.dart';
 // **************************************************************************
 
 T _$identity<T>(T value) => value;
+Cart _$CartFromJson(Map<String, dynamic> json) {
+  return _Cart.fromJson(json);
+}
 
 /// @nodoc
 class _$CartTearOff {
@@ -19,6 +22,11 @@ class _$CartTearOff {
       items: items,
     );
   }
+
+// ignore: unused_element
+  Cart fromJson(Map<String, Object> json) {
+    return Cart.fromJson(json);
+  }
 }
 
 /// @nodoc
@@ -29,6 +37,7 @@ const $Cart = _$CartTearOff();
 mixin _$Cart {
   List<CartItem> get items;
 
+  Map<String, dynamic> toJson();
   @JsonKey(ignore: true)
   $CartCopyWith<Cart> get copyWith;
 }
@@ -85,11 +94,16 @@ class __$CartCopyWithImpl<$Res> extends _$CartCopyWithImpl<$Res>
   }
 }
 
+@JsonSerializable()
+
 /// @nodoc
 class _$_Cart extends _Cart {
   _$_Cart({@required this.items})
       : assert(items != null),
         super._();
+
+  factory _$_Cart.fromJson(Map<String, dynamic> json) =>
+      _$_$_CartFromJson(json);
 
   @override
   final List<CartItem> items;
@@ -115,11 +129,18 @@ class _$_Cart extends _Cart {
   @override
   _$CartCopyWith<_Cart> get copyWith =>
       __$CartCopyWithImpl<_Cart>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$_$_CartToJson(this);
+  }
 }
 
 abstract class _Cart extends Cart {
   _Cart._() : super._();
   factory _Cart({@required List<CartItem> items}) = _$_Cart;
+
+  factory _Cart.fromJson(Map<String, dynamic> json) = _$_Cart.fromJson;
 
   @override
   List<CartItem> get items;
