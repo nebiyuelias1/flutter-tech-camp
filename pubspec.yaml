@@ -43,10 +43,13 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  mockito: ^4.1.4
+
   auto_route_generator: ^0.6.10
   build_runner: ^1.11.1
   freezed: ^0.12.7
   json_serializable: ^3.5.1
+  network_image_mock: 1.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
