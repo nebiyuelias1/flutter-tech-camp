@@ -52,11 +52,7 @@ class _Carts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 1,
-        childAspectRatio: 6 / 1.5,
-      ),
+    return ListView.builder(
       itemCount: cart.items.length,
       itemBuilder: (_, index) {
         return _Cart(cartItem: cart.items[index]);
@@ -72,36 +68,45 @@ class _Cart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Image(
-          image: NetworkImage(cartItem.product.image),
-        ),
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _buildProductContainer(
-                  '${cartItem.product.title}',
-                  '${cartItem.multiplier} x ${cartItem.product.price}'),
-              Row(
-                children: [
-                  _buildTextButton(context, '-', false),
-                  Text('${cartItem.multiplier}'),
-                  _buildTextButton(context, '+', true)
-                ],
-              )
-            ],
+    return Card(
+      child: ListTile(
+        leading: Image.network(cartItem.product.image),
+        title: Text(
+          cartItem.product.title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
           ),
-        )
-      ],
+        ),
+        subtitle: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: _buildProductContainer(
+                  '${cartItem.multiplier} x ${cartItem.product.price}'),
+            ),
+            Row(
+              children: [
+                _buildTextButton(context, Icons.remove, false),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    '${cartItem.multiplier}',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                _buildTextButton(context, Icons.add, true)
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 
-  TextButton _buildTextButton(BuildContext context, String _textButton,
-      bool isIncrementing) {
+  TextButton _buildTextButton(
+      BuildContext context, dynamic icon, bool isIncrementing) {
     return TextButton(
       onPressed: () {
         final cubit = context.read<CartCubit>();
@@ -111,20 +116,15 @@ class _Cart extends StatelessWidget {
           cubit.removeFromCart(cartItem.product);
         }
       },
-      child: Text(
-        _textButton,
-        style: TextStyle(color: Colors.grey, fontSize: 15),
-      ),
+      child: Icon(icon),
     );
   }
 
-  Container _buildProductContainer(String _productName, String _productPrice) {
+  Container _buildProductContainer(String _productPrice) {
     return Container(
-      // padding: EdgeInsets.only(left: 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildText(_productName, 20, true),
           _buildText(_productPrice, 15, false),
         ],
       ),
