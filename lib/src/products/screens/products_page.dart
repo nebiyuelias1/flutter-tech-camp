@@ -14,7 +14,7 @@ class ProductsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => sl<CartCubit>())
+        BlocProvider(
           create: (context) => sl<ProductsCubit>()..getAllProducts(),
         ),
         BlocProvider(
@@ -125,12 +125,12 @@ class _Product extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.push(
-                context,
-        MaterialPageRoute(
-          builder: (context) => ProductDetailPage(
-            product: product,
-          ),
-        ));
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProductDetailPage(
+                product: product,
+              ),
+            ));
       },
       child: Card(
         margin: EdgeInsets.all(8.0),
